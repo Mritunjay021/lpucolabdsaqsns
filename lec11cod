@@ -1,0 +1,485 @@
+/*1.You are working on a text editing application, and you need to implement a feature that allows users to insert a character at a specific index in the text. You decide to implement this feature using a grounded header linked list to efficiently manage the text.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input consists of an integer n, representing the number of characters.
+
+The second line consists of n space-separated characters, representing the initial characters in the list.
+
+The third line consists of an integer index representing the position for insertion.
+
+The fourth line consists of a character to be inserted at the specified index.
+
+Output format :
+For each insertion operation, display the updated list after inserting the character, at the specified index. (index starts from 0)
+
+Print "Invalid position" for invalid input numbers.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The number of characters n (0 ≤ n ≤ 100).
+
+Each character is an alphanumeric ASCII character (a-z, A-Z, 0-9).
+
+Sample test cases :
+Input 1 :
+5
+A B C D E
+2
+X
+Output 1 :
+Updated list: A B X C D E 
+Input 2 :
+3
+P Q R
+0
+S
+Output 2 :
+Updated list: S P Q R 
+Input 3 :
+7
+p q r s t u v
+10
+l
+Output 3 :
+Invalid position.
+Updated list: p q r s t u v */
+#include <iostream>
+using namespace std;
+
+struct Node {
+        char data;
+            Node* next;
+};
+
+void insertCharacter(Node** head, int index, char character) {
+        Node* newNode = new Node();
+            newNode->data = character;
+                newNode->next = nullptr;
+                
+                    if (index == 0) {
+                                newNode->next = *head;
+                                        *head = newNode;
+                    } else {
+                                Node* temp = *head;
+                                        for (int i = 0; i < index - 1; i++) {
+                                                        if (temp == nullptr) {
+                                                                            cout << "Invalid position" << endl;
+                                                                                            return;
+                                                        }
+                                                                    temp = temp->next;
+                                        }
+                                                if (temp == nullptr) {
+                                                                cout << "Invalid position" << endl;
+                                                                            return;
+                                                }
+                                                        newNode->next = temp->next;
+                                                                temp->next = newNode;
+                    }
+}
+
+void displayList(Node* head) {
+        Node* temp = head;
+            while (temp != nullptr) {
+                        cout << temp->data<<" ";
+                                temp = temp->next;
+            }
+                cout << endl;
+}
+
+int main() {
+        int n;
+            cin >> n;
+            
+                Node* head = nullptr;
+                    Node* tail = nullptr;
+                    
+                        for (int i = 0; i < n; i++) {
+                                    char character;
+                                            cin >> character;
+                                                    Node* newNode = new Node();
+                                                            newNode->data = character;
+                                                                    newNode->next = nullptr;
+                                                                    
+                                                                            if (head == nullptr) {
+                                                                                            head = newNode;
+                                                                                                        tail = newNode;
+                                                                            } else {
+                                                                                            tail->next = newNode;
+                                                                                                        tail = newNode;
+                                                                            }
+                        }
+                        
+                            int index;
+                                cin >> index;
+                                
+                                    if (index < 0 || index > n) {
+                                                cout << "Invalid position." << endl;
+                                                cout<<"Updated list: ";
+                                                displayList(head);
+                                    } else {
+                                                char character;
+                                                        cin >> character;
+                                                                insertCharacter(&head, index, character);
+                                                                        cout << "Updated list: ";
+                                                                                displayList(head);
+                                    }
+                                    
+                                        return 0;
+}
+
+
+
+
+/*2.You are developing a contact management system for a mobile application. The system allows users to maintain a list of their contacts. Whenever a user adds a new contact, the system should add it at the front of the contact list.
+
+
+
+Write a program to implement the code to perform insertion at the beginning using Grounded Header Linked List.
+
+
+
+Note: This is a sample question asked in TCS recruitment.
+
+Input format :
+The first line represents the size of element n.
+
+The next n lines store the values in it.
+
+Enter -1 to stop.
+
+Output format :
+The output represents the updated list with the new node added at the front.
+
+Sample test cases :
+Input 1 :
+1
+2
+3
+4
+-1
+Output 1 :
+4 3 2 1 
+Input 2 :
+7
+8
+9
+10
+-1
+Output 2 :
+10 9 8 7 */
+
+
+
+#include <iostream>
+
+// Node structure for Grounded Header Linked List
+struct Node {
+        int data;
+            Node* next;
+};
+
+// Function to insert a node at the beginning of the linked list
+void insertAtBeginning(Node*& header, int newData) {
+        // Create a new node
+            Node* newNode = new Node;
+                newNode->data = newData;
+                
+                    // Update the pointers
+                        newNode->next = header->next;
+                            header->next = newNode;
+}
+
+// Function to display the linked list
+void displayList(const Node* header) {
+        // Start from the first node after the header
+            Node* current = header->next;
+            
+                // Traverse and print the linked list
+                    while (current != nullptr) {
+                                std::cout << current->data << " ";
+                                        current = current->next;
+                    }
+                    
+                        std::cout << std::endl;
+}
+
+
+int main() {
+        // Create the grounded header node
+            Node* header = new Node;
+                header->next = nullptr;
+                
+                    int newData;
+                    
+                        while (true) {
+                                    std::cin >> newData;
+                                    
+                                            if (newData == -1) {
+                                                            break;
+                                            }
+                                            
+                                                    // Insert node at the beginning
+                                                            insertAtBeginning(header, newData);
+                        }
+                        
+                            displayList(header);
+                            
+                                return 0;
+}
+
+
+/*3.You are tasked with implementing a student grades matrix using the Sparse Matrix Representation with a grounded header linked list. The matrix will store the grades of students for different subjects. 
+
+
+
+So, write logic to implement a sparse matrix using a Grounded header linked list.
+
+
+
+Note: This is a sample question asked in an Infosys interview.
+
+Input format :
+The first line represents a row r of the matrix.
+
+The second line represents column c of the matrix.
+
+The remaining line's, r*c values consist of matrix elements.
+
+Output format :
+The output represents the sparse matrix.
+
+Sample test cases :
+Input 1 :
+3
+3
+1 0 0
+0 2 0
+0 0 3
+Output 1 :
+1 0 0 
+0 2 0 
+0 0 3 */
+
+
+
+#include <iostream>
+using namespace std;
+
+// Node structure for the linked list
+struct Node {
+        int row, col, data;
+            Node* right;
+                Node* down;
+};
+
+// Function to create a new node
+Node* createNode(int row, int col, int data) {
+        Node* newNode = new Node;
+            newNode->row = row;
+                newNode->col = col;
+                    newNode->data = data;
+                        newNode->right = nullptr;
+                            newNode->down = nullptr;
+                                return newNode;
+}
+
+// Function to insert a node into the linked list
+void insertNode(Node** head, int row, int col, int data) {
+        Node* newNode = createNode(row, col, data);
+            if (*head == nullptr) {
+                        *head = newNode;
+                                return;
+            }
+                Node* temp = *head;
+                    while (temp->down != nullptr) {
+                                temp = temp->down;
+                    }
+                        temp->down = newNode;
+                            temp = temp->down;
+                                while (temp->right != nullptr) {
+                                            temp = temp->right;
+                                }
+                                    temp->right = newNode;
+}
+
+// Function to display the sparse matrix
+void displaySparseMatrix(Node* head, int rows, int cols) {
+        for (int i = 0; i < rows; i++) {
+                    Node* temp = head;
+                            for (int j = 0; j < cols; j++) {
+                                            if (temp != nullptr && temp->row == i && temp->col == j) {
+                                                                cout << temp->data << " ";
+                                                                                temp = temp->right;
+                                            } else {
+                                                                cout << "0 ";
+                                            }
+                            }
+                                    cout << endl;
+        }
+}
+
+int main() {
+        int rows, cols;
+            cin >> rows >> cols;
+                Node* head = nullptr;
+                    for (int i = 0; i < rows; i++) {
+                                for (int j = 0; j < cols; j++) {
+                                                int data;
+                                                            cin >> data;
+                                                                        if (data != 0) {
+                                                                                            insertNode(&head, i, j, data);
+                                                                        }
+                                }
+                    }
+                        displaySparseMatrix(head, rows, cols);
+                            return 0;
+}
+
+/*4.Suppose you are working on a student management system for a university, and you need to implement a deletion functionality for a grounded header linked list to manage student records. Write a program to implement deletion logic for a Grounded Header Linked List with multiple deletions based on user input.
+
+
+
+Example
+
+
+
+Input:
+
+10 20 30 40 50 -1
+
+20 30 -1
+
+
+
+Output:
+
+50 40 10 
+
+
+
+Explanation:
+
+The elements of the linked list: 10 20 30 40 50
+
+The elements to be deleted: 20 30
+
+So, after deleting the given elements, the linked list will be  10 40 50.
+
+Print the linked list in the reverse order: 50 40 10.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input stores the elements to be inserted in the list until it reaches -1.
+
+The second line stores the elements to be deleted until it reaches -1.
+
+Output format :
+The output prints the remaining elements in the reverse order, after deleting the given element.
+
+Sample test cases :
+Input 1 :
+10 20 30 40 50 -1
+20 -1
+Output 1 :
+50 40 30 10 
+Input 2 :
+10 20 30 40 50 -1
+20 30 -1
+Output 2 :
+50 40 10 */
+
+
+
+// You are using GCC
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+};
+
+Node* createNode(int value) {
+        Node* newNode = new Node();
+            newNode->data = value;
+                newNode->next = NULL;
+                    return newNode;
+}
+
+void insertNode(Node** head, int value) {
+        Node* newNode = createNode(value);
+            if (*head == NULL) {
+                        *head = newNode;
+                                return;
+            }
+                Node* temp = *head;
+                    while (temp->next != NULL) {
+                                temp = temp->next;
+                    }
+                        temp->next = newNode;
+}
+
+void deleteNodes(Node** head, int value) {
+        Node* temp = *head;
+            Node* prev = NULL;
+                while (temp != NULL && temp->data == value) {
+                            *head = temp->next;
+                                    delete temp;
+                                            temp = *head;
+                }
+                    while (temp != NULL) {
+                                while (temp != NULL && temp->data != value) {
+                                                prev = temp;
+                                                            temp = temp->next;
+                                }
+                                        if (temp == NULL) {
+                                                        return;
+                                        }
+                                                prev->next = temp->next;
+                                                        delete temp;
+                                                                temp = prev->next;
+                    }
+}
+
+void reversePrint(Node* head) {
+        if (head == NULL) {
+                    return;
+        }
+            reversePrint(head->next);
+                cout << head->data << " ";
+}
+
+int main() {
+        Node* head = NULL;
+            int value;
+                
+                    // Insert elements into the linked list
+                        while (cin >> value && value != -1) {
+                                    insertNode(&head, value);
+                        }
+                            
+                                // Delete elements from the linked list
+                                    while (cin >> value && value != -1) {
+                                                deleteNodes(&head, value);
+                                    }
+                                        
+                                            // Print the remaining elements in reverse order
+                                                reversePrint(head);
+                                                    
+                                                        return 0;
+}
+
+
+
+

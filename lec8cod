@@ -1,0 +1,523 @@
+/*1.You are developing a text editor application that allows users to manage a document. The application uses a linked list data structure to represent the document content. Each node of the linked list contains a string representing a line of text.
+
+
+
+The application supports two operations: inserting new string values at the beginning of the document and appending a new string at the end of the document.
+
+
+
+If no input string list is created and if no value is appended to the list, then an empty list should be returned as output.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input consists of an integer, n representing the number of lines in the document.
+
+The next n lines of input consist of the lines of text that constitute the document.
+
+The last line of input consists of a string, s, which needs to be appended at the end of the document.
+
+Output format :
+The first line of output should print the initial document content, which inserts the given n values at the beginning.
+
+The second line of output should print the final document content, which appends the given value s at the end of the document.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+n>0
+
+The length of each line should be less than or equal to 100 characters.
+
+Sample test cases :
+Input 1 :
+3
+Apple
+Banana
+Orange
+Grapes
+Output 1 :
+Document: Orange Banana Apple
+Updated Document: Orange Banana Apple Grapes
+Input 2 :
+2
+Hello
+World
+Space
+Output 2 :
+Document: World Hello
+Updated Document: World Hello Space
+Input 3 :
+0
+Output 3 :
+Document:
+Updated Document: 
+*/
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct node
+{
+        string str;
+            struct node *next;
+};
+
+void ib(struct node **head_ref, string str1)
+{
+        struct node *newnode = new struct node; // Use 'new' for C++
+            newnode->str = str1;
+                newnode->next = *head_ref;
+                    *head_ref = newnode;
+}
+
+void print_list(struct node *head)
+{
+        struct node *temp = head;
+            while (temp != NULL)
+                {
+                            cout << temp->str << " ";
+                                    temp = temp->next;
+                }
+}
+
+void apend(struct node *head, string ele)
+{
+        struct node *temp = head;
+            while (temp->next != NULL)
+                {
+                            temp = temp->next;
+                }
+                
+                    struct node *newnode = new struct node;
+                        newnode->str = ele;
+                            newnode->next = NULL;
+                                temp->next = newnode;
+}
+
+int main()
+{
+        struct node *head = NULL;
+            int n;
+                string str1, ele;
+                
+                    
+                        cin >> n;
+                        
+                        for (int i = 1; i <= n; i++)
+                            {
+                                cin >> str1;
+                                ib(&head, str1);
+                            }
+                                
+                        cout << "Document: ";
+                        print_list(head);
+                                        
+                                    
+                        cin >> ele;
+                        apend(head, ele);
+                                                    
+                        cout << "Updated Document: ";
+                        print_list(head);
+                                                            
+                        return 0;
+}
+
+
+
+
+/*2.Vijay wants to create a program that allows him to manipulate a linked list.
+
+
+
+He wants to be able to perform the following operations:
+
+1: Append Left: Append a node at the beginning(left) of the linked list.
+
+2: Append Right: Append a node at the end(right) of the linked list.
+
+3: Print: Print the contents of the linked list.
+
+4: Exit: Exit the program.
+
+
+
+Note: This is a sample question asked in Accenture recruitment.
+
+Input format :
+For inserting a node at the beginning of the linked list, input: 1 followed by the value
+
+For inserting at the end of the linked list, input: 2 followed by the value
+
+To display the current linked list, input: 3
+
+To exit the program, input: 4
+
+Output format :
+The program displays the following outputs based on the inputs provided:
+
+If the choice is 3: "Linked List: [values separated by space]"
+
+If the choice is 4: The program exits.
+
+If the choice is invalid: "Invalid choice"
+
+Code constraints :
+The input values for the linked list nodes will be non-negative integers.
+
+Sample test cases :
+Input 1 :
+1 10
+2 20
+3
+4
+Output 1 :
+Linked List: 10 20
+Input 2 :
+1 10
+1 20
+1 30
+2 35
+3 
+4
+Output 2 :
+Linked List: 30 20 10 35
+Input 3 :
+5
+4
+Output 3 :
+Invalid choice*/
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+                Node(int value) : data(value), next(nullptr) {}
+};
+
+class LinkedList {
+    private:
+        Node* head;
+        
+        public:
+            LinkedList() : head(nullptr) {}
+            
+                void appendLeft(int value) {
+                            Node* newNode = new Node(value);
+                                    newNode->next = head;
+                                            head = newNode;
+                }
+                
+                    void appendRight(int value) {
+                                Node* newNode = new Node(value);
+                                        if (!head) {
+                                                        head = newNode;
+                                                                    return;
+                                        }
+                                        
+                                                Node* current = head;
+                                                        while (current->next) {
+                                                                        current = current->next;
+                                                        }
+                                                                current->next = newNode;
+                    }
+                    
+                        void print() {
+                                    Node* current = head;
+                                            cout << "Linked List: ";
+                                                    while (current) {
+                                                                    cout << current->data << " ";
+                                                                                current = current->next;
+                                                    }
+                                                            cout << endl;
+                        }
+                        
+                            void clear() {
+                                        while (head) {
+                                                        Node* temp = head;
+                                                                    head = head->next;
+                                                                                delete temp;
+                                        }
+                            }
+                            
+                                ~LinkedList() {
+                                            clear();
+                                }
+};
+
+int main() {
+        LinkedList list;
+            int choice, value;
+            
+                while (true) {
+                            cin >> choice;
+                            
+                                    if (choice == 1) { // Append Left
+                                                cin >> value;
+                                                            list.appendLeft(value);
+                                    } else if (choice == 2) { // Append Right
+                                                cin >> value;
+                                                            list.appendRight(value);
+                                    } else if (choice == 3) { // Print
+                                                list.print();
+                                    } else if (choice == 4) { // Exit
+                                                break;
+                                    } else {
+                                                    cout << "Invalid choice" << endl;
+                                    }
+                }
+                
+                    return 0;
+}
+
+
+
+
+
+/*3.Jaanu wants to create a program that allows her to create a linked list of strings. Jaanu to enter the number of strings she wants to insert into the linked list. Then, she should enter each string one by one and insert them at the end of the linked list. After that, ask Jaanu to enter a new string, which will be appended at the end of the linked list. Finally, display the contents of the linked list.
+
+
+
+Note: This is a sample question asked in a TCS interview.
+
+Input format :
+The first line contains an integer, num_of_strings, representing the number of strings in the linked list.
+
+The next num_of_strings lines contain the strings that constitute the linked list.
+
+The last line contains a string, new_string, which needs to be appended at the end of the linked list.
+
+Output format :
+The insert and append at the end of the linked lists after inserting the new node are in the format "Linked List Contents: <list values separated by space>".
+
+
+
+Refer to the sample output for format specifications.
+
+Code constraints :
+The number of strings should be a positive integer.
+
+The length of each string should be less than or equal to 100 characters.
+
+Sample test cases :
+Input 1 :
+3
+Apple
+Banana
+Orange
+Grapes
+Output 1 :
+Linked List Contents: Apple Banana Orange Grapes 
+Input 2 :
+2
+Hello
+World
+Space
+Output 2 :
+Linked List Contents: Hello World Space 
+Input 3 :
+0
+None
+None
+Output 3 :
+Linked List Contents: None */
+
+
+
+// You are using GCC
+#include<iostream>
+#include<string>
+using namespace std;
+struct node
+{
+    string data;
+    struct node  *next;
+};
+void ie(struct node **head_ref,string ele)
+{
+    struct node *newnode = new struct node;
+    struct node *last = *head_ref;
+    newnode->data=ele;
+    newnode->next=NULL;
+    if(*head_ref==NULL)
+    {
+        *head_ref=newnode;
+        return;
+    }
+    else
+    {
+        while(last->next!=NULL)
+        {
+            last=last->next;
+        }
+        last->next=newnode;
+    }
+}
+void apend(struct node *head,string nstr)
+{
+    struct node *temp=head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    struct node *newnode = new struct node;
+    newnode->data=nstr;
+    newnode->next=NULL;
+    temp->next=newnode;
+}
+void print(struct node *head)
+{
+    struct node *temp=head;
+    while (temp != NULL)
+    {
+        cout<<temp->data<< " ";
+        temp=temp->next;
+    }
+}
+
+int main()
+{
+    int n;
+    string str,newstr;
+    cin>>n;
+    struct node *head=NULL;
+    for(int i=0;i<n;i++)
+    {
+        cin>>str;
+        ie(&head,str);
+    }
+    cin>>newstr;
+    apend(head,newstr);
+    cout<<"Linked List Contents: ";
+    print(head);
+    return 0;
+}
+
+
+
+/*4.Alice is learning about linked lists and wants to practice creating one by inserting elements at the front. She decides to write a program that allows her to do so. 
+
+
+
+The program will prompt Alice to enter the number of elements she wants to insert and then ask her to input the values of those elements. After receiving the inputs, the program will insert the elements at the front of the linked list and display the final linked list to Alice.
+
+
+
+Alice is excited to see how her program will work and hopes it will help solidify her understanding of linked lists. She prepares herself to input the number of elements and their respective values, eagerly anticipating the final result.
+
+
+
+Note: This is a sample question asked in a HCL interview.
+
+Input format :
+The first line of input consists of an integer n, representing the number of elements to be inserted.
+
+The second line of input consists of n space-separated integers, representing the elements to be inserted in the linked list.
+
+The third line of input consists of an integer representing the value to be inserted at the front of the linked list.
+
+Output format :
+The first line of output should display the initial linked list elements, separated by space.
+
+The second line of output should display the linked list elements, after inserting the given element at the front, separated by space.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The number of elements to be inserted (n) is a positive integer.
+
+The values of the elements can be positive or negative integers.
+
+Sample test cases :
+Input 1 :
+5
+6 5 4 3 2
+1
+Output 1 :
+Created Linked list: 2 3 4 5 6 
+Final List: 1 2 3 4 5 6 
+Input 2 :
+4
+-10 20 -30 40
+5
+Output 2 :
+Created Linked list: 40 -30 20 -10 
+Final List: 5 40 -30 20 -10 */
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct node
+{
+        int data;
+            struct node *next;
+};
+
+void ib(struct node **head_ref, int data1)
+{
+        struct node *newnode = new struct node;
+            newnode->data = data1;
+                newnode->next = *head_ref;
+                    *head_ref = newnode;
+}
+
+void print_list(struct node *head)
+{
+        struct node *temp = head;
+            while (temp != NULL)
+                {
+                            cout << temp->data << " ";
+                                    temp = temp->next;
+                }
+}
+
+void apend(struct node **head_ref, int ele)
+{
+        struct node *newnode = new struct node;
+            newnode->data = ele;
+                newnode->next = *head_ref;
+                    *head_ref = newnode;
+}
+
+int main()
+{
+        struct node *head = NULL;
+            int n;
+                int data1, ele;
+                
+                    cin >> n;
+                    
+                        for (int i = 1; i <= n; i++)
+                            {
+                                        cin >> data1;
+                                                ib(&head, data1);
+                            }
+                            
+                                cout << "Created Linked list: ";
+                                    print_list(head);
+                                    
+                                        
+                                            cin >> ele;
+                                                apend(&head, ele); // Pass a pointer to head
+                                                
+                                                    cout << "\nFinal List: ";
+                                                        print_list(head);
+                                                        
+                                                            return 0;
+}

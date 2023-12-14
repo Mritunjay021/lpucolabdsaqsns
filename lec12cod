@@ -1,0 +1,656 @@
+/*1.You are developing a gaming application that requires a program to manage the scores of players. The program should implement a circular header linked list to store the player's scores. Each node in the linked list represents a player's score, and the list is circular to maintain a continuous loop of scores.
+
+
+
+The program should provide the following functionalities:
+
+Adding Scores: The program should allow adding a player's score at the front or end of the linked list.
+
+Displaying Scores: The program should display the player's scores stored in the linked list, along with the total number of scores.
+
+
+
+Your task is to develop a program that implements the circular header linked list and provides the mentioned functionalities. Ensure that the program correctly manages the scores and displays them accurately.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line contains an integer, N, representing the number of player scores to be added at the front of the list.
+
+The second line contains N space-separated integers, representing the player scores to be added at the front of the list.
+
+The third line contains an integer, M, representing the number of player scores to be added at the end of the list.
+
+The fourth line contains M space-separated integers, representing the player scores to be added at the end of the list.
+
+Output format :
+If the linked list is empty, output "List is empty."
+
+Otherwise, output the total number of nodes in the circular header linked list, followed by the node values.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The player scores are integers.
+
+The number of player scores to be added at the front and end of the list is non-negative.
+
+Sample test cases :
+Input 1 :
+3
+10 20 30
+2
+40 50
+Output 1 :
+Number of nodes in the CLL is 5
+30 20 10 40 50 
+Input 2 :
+1
+15
+2
+40 50
+Output 2 :
+Number of nodes in the CLL is 3
+15 40 50 
+Input 3 :
+0
+0
+Output 3 :
+List is empty*/
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+        int data;
+            Node* link;
+};
+
+typedef Node* NODE;
+
+NODE getnode() {
+        NODE x = new Node();
+            return x;
+}
+
+NODE insertAtFront(NODE head, int item) {
+        NODE temp = getnode();
+            temp->data = item;
+            
+                if (head == nullptr) {
+                            head = temp;
+                                    head->link = head;
+                } else {
+                            temp->link = head->link;
+                                    head->link = temp;
+                }
+                
+                    head->data++;
+                        return head;
+}
+
+NODE insertAtEnd(NODE head, int item) {
+        NODE temp = getnode();
+            temp->data = item;
+            
+                if (head == nullptr) {
+                            head = temp;
+                                    head->link = head;
+                } else {
+                            NODE cur = head->link;
+                                    while (cur->link != head) {
+                                                    cur = cur->link;
+                                    }
+                                            temp->link = head;
+                                                    cur->link = temp;
+                }
+                
+                    head->data++;
+                        return head;
+}
+
+void display(NODE head) {
+        NODE temp;
+            if (head->link == head) {
+                        cout << "List is empty" << endl;
+                                return;
+            }
+            
+                //cout << "\nContents of the CLL:" << endl;
+                    cout << "Number of nodes in the CLL is " << head->data << endl;
+                        temp = head->link;
+                            while (temp != head) {
+                                        cout << temp->data << " ";
+                                                temp = temp->link;
+                            }
+}
+
+int main() {
+        NODE head = nullptr;
+            int item, n;
+            
+                head = getnode();
+                    head->data = 0;
+                        head->link = head; // Empty header node
+                        
+                            cin >> n;
+                            
+                                for (int i = 0; i < n; i++) {
+                                            cin >> item;
+                                                    head = insertAtFront(head, item);
+                                }
+                                
+                                    cin >> n;
+                                    
+                                        for (int i = 0; i < n; i++) {
+                                                    cin >> item;
+                                                            head = insertAtEnd(head, item);
+                                        }
+                                        
+                                            // Display the linked list
+                                                display(head);
+                                                
+                                                    return 0;
+}
+
+
+/*2.Alice is a detective investigating a mysterious case involving a secret code. She discovered a circular header linked list containing characters. Alice believes that this linked list might be a palindrome, meaning it reads the same forwards and backward.
+
+
+
+To validate her hypothesis, Alice needs your help to write a program that checks whether the circular header linked list is indeed a palindrome when considering the entire list in both forward and backward directions. 
+
+
+
+Write a program that takes the input of a circular header linked list and determines if it is a palindrome. The program should output "Palindrome" if the linked list is a palindrome and "Not Palindrome" otherwise.
+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+
+Input format :
+The first line represents the number of elements in the linked list n.
+
+The next n line represents the elements in a linked list.
+
+Output format :
+The output represents the palindrome or not.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+Output 1 :
+Linked list is not a palindrome.
+Input 2 :
+5
+1 2 3 2 1
+Output 2 :
+Linked list is a palindrome.*/
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+};
+
+Node* createNode(int data) {
+        Node* newNode = new Node();
+            newNode->data = data;
+                newNode->next = nullptr;
+                    return newNode;
+}
+
+bool isPalindrome(Node* head) {
+        if (head == nullptr)
+                return true;
+                
+                    stack<int> values;
+                        Node* current = head;
+                            do {
+                                        values.push(current->data);
+                                                current = current->next;
+                            } while (current != head);
+                            
+                                current = head;
+                                    while (!values.empty()) {
+                                                if (values.top() != current->data)
+                                                            return false;
+                                                                    values.pop();
+                                                                            current = current->next;
+                                    }
+                                    
+                                        return true;
+}
+
+int main() {
+        int n;
+            cin >> n;
+            
+                Node* head = nullptr;
+                    Node* prev = nullptr;
+                        for (int i = 0; i < n; i++) {
+                                    int value;
+                                            cin >> value;
+                                            
+                                                    Node* newNode = createNode(value);
+                                                            if (head == nullptr) {
+                                                                            head = newNode;
+                                                                                        newNode->next = head;
+                                                            } else {
+                                                                            prev->next = newNode;
+                                                                                        newNode->next = head;
+                                                            }
+                                                                    prev = newNode;
+                        }
+                        
+                            if (isPalindrome(head))
+                                    cout << "Linked list is a palindrome.";
+                                        else
+                                                cout << "Linked list is not a palindrome.";
+                                                
+                                                    return 0;
+}
+
+
+
+
+
+/*3.You are building a playlist manager for your favorite movies using a circular header-linked list. Each node in the list represents a movie, and the playlist loops back to the beginning after the last movie. 
+
+
+
+The playlist manager should allow you to perform operations such as adding movies at the front and end, removing movies from the front and end, and displaying the current playlist.
+
+
+
+Note: This is a sample question asked in a TCS interview.
+
+Input format :
+The input consists of the following:
+
+
+
+The number of movies to insert at the front of the playlist, denoted by an integer n1.
+
+n1 lines containing the titles of the movies to be inserted at the front.
+
+The number of movies to insert at the end of the playlist, denoted by an integer n2.
+
+n2 lines containing the titles of the movies to be inserted at the end.
+
+Output format :
+The output consists of the following parts:
+
+
+
+The current playlist is displayed as a circular header-linked list.
+
+The number of nodes (movies) in the playlist.
+
+If a movie is deleted from the front or end, the deleted element is displayed.
+
+The updated playlist after deletion.
+
+
+
+Refer to the sample output for specifications.
+
+Code constraints :
+The movie titles will be alphanumeric strings of a maximum length of 100 characters.
+
+The maximum number of movies in the playlist is 100.
+
+Sample test cases :
+Input 1 :
+4
+Movie 1
+Movie 2
+Movie 3
+Movie 4
+2
+Movie 5
+Movie 6
+Output 1 :
+|Movie 4| --> |Movie 3| --> |Movie 2| --> |Movie 1| --> |Movie 5| --> |Movie 6| --> 
+No of nodes in the CLL is 6
+Deleted element: Movie 4
+Deleted element: Movie 6
+|Movie 3| --> |Movie 2| --> |Movie 1| --> |Movie 5| --> 
+No of nodes in the CLL is 4
+Input 2 :
+3
+The Avengers
+Iron Man
+Thor
+0
+Output 2 :
+|Thor| --> |Iron Man| --> |The Avengers| --> 
+No of nodes in the CLL is 3
+Deleted element: Thor
+Deleted element: The Avengers
+|Iron Man| --> 
+No of nodes in the CLL is 1
+I*/
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Node {
+      string data;
+        Node* next;
+};
+
+// A circular header-linked list
+struct Playlist {
+      Node* head;
+        int size;
+};
+
+void insertAtFront(Playlist* playlist, string movie) {
+      Node* newNode = new Node();
+        newNode->data = movie;
+        
+          newNode->next = playlist->head->next;
+            playlist->head->next = newNode;
+            
+              playlist->size++;
+}
+
+void insertAtEnd(Playlist* playlist, string movie) {
+      Node* newNode = new Node();
+        newNode->data = movie;
+        
+          Node* temp = playlist->head;
+            while (temp->next != playlist->head) {
+                    temp = temp->next;
+            }
+            
+              temp->next = newNode;
+                newNode->next = playlist->head;
+                
+                  playlist->size++;
+}
+
+
+void createPlaylist(Playlist* playlist, int nl, int n2) {
+      playlist->head = new Node();
+        playlist->head->data = "";
+          playlist->head->next = playlist->head;
+            playlist->size = 0;
+          
+            
+            
+              for (int i = 0; i < nl; i++) {
+                      string movie;
+                          cin >> movie;
+                              insertAtFront(playlist, movie);
+              }
+              
+                for (int i = 0; i < n2; i++) {
+                        string movie;
+                            cin >> movie;
+                                insertAtEnd(playlist, movie);
+                }
+}
+
+
+
+void deleteFromFront(Playlist* playlist) {
+      if (playlist->size == 0) {
+              cout << "Playlist is empty" << endl;
+                  return;
+      }
+      
+        Node* temp = playlist->head->next;
+          playlist->head->next = temp->next;
+            delete temp;
+            
+              playlist->size--;
+}
+
+void deleteFromEnd(Playlist* playlist) {
+      if (playlist->size == 0) {
+              cout << "Playlist is empty" << endl;
+                  return;
+      }
+      
+        Node* temp = playlist->head;
+          while (temp->next->next != playlist->head) {
+                  temp = temp->next;
+          }
+          
+            Node* toDelete = temp->next;
+              temp->next = playlist->head;
+                delete toDelete;
+                
+                  playlist->size--;
+}
+
+void printPlaylist(Playlist* playlist) {
+      Node* temp = playlist->head->next;
+        if (temp == playlist->head) {
+                cout << "Playlist is empty" << endl;
+                    return;
+        }
+        
+          cout << temp->data << " --> ";
+            temp = temp->next;
+            
+              while (temp != playlist->head) {
+                      cout << temp->data << " --> ";
+                          temp = temp->next;
+              }
+              
+                cout << endl;
+}
+
+int main() {
+      Playlist playlist;
+      
+        int nl, n2;
+          cin >> nl >> n2;
+          
+            createPlaylist(&playlist, nl, n2);
+            
+              cout << "Current playlist: ";
+                printPlaylist(&playlist);
+                  cout << "No of nodes in the CLL is " << playlist.size << endl;
+                  
+                    cout << "Deleted element: ";
+                      deleteFromFront(&playlist);
+                        printPlaylist(&playlist);
+                          cout << "No of nodes in the CLL is " << playlist.size << endl;
+                          
+                            cout << "Deleted element: ";
+                              deleteFromEnd(&playlist);
+                                printPlaylist(&playlist);
+                                  cout << "No of nodes in the CLL is " << playlist.size << endl;
+                                  
+                                    return 0;
+}
+
+/*4.Your task is to create a program that handles circular linked lists and supports the insertion of nodes at the end and the deletion of nodes containing a specified value. The program should take user inputs to build the circular linked list, display it before and after the deletion operation, and manage the deletion of nodes as per the provided value.
+
+
+
+Note: This is a sample question asked in CTS recruitment.
+
+Input format :
+The first line of input consists of an integer n, representing the size of the list.
+
+The second line consists of n space-separated integers, representing the elements to be inserted at the end of the list.
+
+The last line consists of the element to be deleted from the list.
+
+Output format :
+The output represents the Circular Header linked list before deletion and after deletion of the given element.
+
+If the element is found in the list, print "Value not found in the linked list!"
+
+
+
+Refer to the sample output for formatting specifications.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+3
+Output 1 :
+Linked list before deletion
+1 2 3 4 5 
+Linked list after deletion
+1 2 4 5 
+Input 2 :
+5
+1 2 3 4 5
+6
+Output 2 :
+Linked list before deletion
+1 2 3 4 5 
+Value not found in the linked list!
+Linked list after deletion
+1 2 3 4 5 */
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+};
+
+// Function to create a new node
+Node* createNode(int value) {
+        Node* newNode = new Node();
+            newNode->data = value;
+                newNode->next = nullptr;
+                    return newNode;
+}
+
+// Function to insert a node at the end of the linked list
+Node* insertNode(Node* head, int value) {
+        if (head == nullptr) {
+                    head = createNode(value);
+                            head->next = head;
+        } else {
+                    Node* temp = head;
+                            while (temp->next != head) {
+                                            temp = temp->next;
+                            }
+                                    temp->next = createNode(value);
+                                            temp->next->next = head;
+        }
+            return head;
+}
+
+// Function to delete a node at the end of the linked list
+Node* deleteEndNode(Node* head, int value) {
+        if (head == nullptr) {
+                    cout << "Linked list is empty!" << endl;
+                            return nullptr;
+        }
+        
+            Node* temp = head;
+                Node* prev = nullptr;
+                    Node* delNode = nullptr;
+                    
+                        // Traverse to the last node
+                            while (temp->next != head) {
+                                        if (temp->next->data == value) {
+                                                        prev = temp;
+                                                                    delNode = temp->next;
+                                        }
+                                                temp = temp->next;
+                            }
+                            
+                                if (delNode == nullptr) {
+                                            cout << "Value not found in the linked list!" << endl;
+                                                    return head;
+                                }
+                                
+                                    // If the node to be deleted is the head
+                                        if (delNode == head) {
+                                                    prev->next = head->next;
+                                                            delete head;
+                                                                    head = prev->next;
+                                        } else {
+                                                    prev->next = delNode->next;
+                                                            delete delNode;
+                                        }
+                                        
+                                            return head;
+}
+
+// Function to display the linked list
+void displayLinkedList(Node* head) {
+        if (head == nullptr) {
+                    
+                            return;
+        }
+        
+            Node* temp = head;
+               // cout << "Linked list: ";
+                   do {
+                               cout << temp->data << " ";
+                                       temp = temp->next;
+                   } while (temp != head);
+                       cout << endl;
+}
+
+int main() {
+        Node* head = nullptr;
+            int numNodes;
+                cin >> numNodes;
+                
+                    for (int i = 0; i < numNodes; i++) {
+                                int value;
+                                        cin >> value;
+                                                head = insertNode(head, value);
+                    }
+                       cout << "Linked list before deletion" << endl;
+                           displayLinkedList(head);
+                           
+                               int valueToDelete;
+                                   cin >> valueToDelete;
+                                   
+                                       head = deleteEndNode(head, valueToDelete);
+                                           cout << "Linked list after deletion" << endl;
+                                               displayLinkedList(head);
+                                               
+                                                   return 0;
+}
+
+
+
+
+

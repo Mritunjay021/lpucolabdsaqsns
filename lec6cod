@@ -1,0 +1,285 @@
+/*1.You are given a list of integers representing the scores of students in a class. The task is to sort the scores in ascending order using the bubble sort algorithm. Additionally, you need to print all the iteration values to track the progress of the sorting process.
+
+
+
+Write a program that takes the list of scores as input and performs bubble sorting on the list. After each iteration, print the current state of the list. Finally, display the sorted list of scores.
+
+
+
+Example:
+
+
+
+Input:
+
+Scores: [89, 72, 95, 68, 82]
+
+
+
+Output:
+
+Iteration 1: [72, 89, 68, 82, 95]
+
+Iteration 2: [72, 68, 82, 89, 95]
+
+Iteration 3: [68, 72, 82, 89, 95]
+
+Iteration 4: [68, 72, 82, 89, 95]
+
+
+
+Sorted Scores: [68, 72, 82, 89, 95]
+
+
+
+Note: The iteration values represent the state of the list after each pass of the bubble sort algorithm.
+
+Input format :
+The first line of input contains an integer n, representing the number of scores in the list.
+
+The second line contains n space-separated integers, representing the scores of the students.
+
+Output format :
+The program should output the following:
+
+The original array of scores.
+
+After each iteration, the array state should be printed.
+
+The sorted array of scores.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+0 ≤ score ≤ 100 (the individual score of a student)
+
+Sample test cases :
+Input 1 :
+5
+89 72 95 68 82
+Output 1 :
+Original array: 
+89 72 95 68 82 
+Iteration 1: 72 89 68 82 95 
+Iteration 2: 72 68 82 89 95 
+Iteration 3: 68 72 82 89 95 
+Iteration 4: 68 72 82 89 95 
+Sorted array: 68 72 82 89 95*/
+
+
+
+
+
+// You are using GCC
+#include<stdio.h>
+void bubblesort(int arr[],int n){
+    int i,j,temp;
+    for(i=0;i<n-1;i++){
+        for(j=0;j<n-i-1;j++){
+            if(arr[j]>arr[j+1]){
+                    temp=arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=temp;
+                }
+            }
+            printf("Iteration %d:",(i+1));
+            for(j=0;j<n;j++){
+                printf(" %d ",arr[j]);
+            }
+            printf("\n");
+        }
+    }
+int main(){
+    int n,i;
+    scanf("%d", &n);
+    int arr[n];
+    for(i=0;i<n;i++){
+        scanf("%d" ,&arr[i]);
+    }
+    printf("Original array:\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("%d",arr[i]);
+    }
+    bubblesort(arr, n);
+    printf("Sorted array :");
+    for(i=0;i<n;i++){
+        printf("%d ", arr[i]);
+    }
+    return 0;
+}
+
+
+/*2.Given an array of integers, sort the odd positions in descending order and even positions in ascending order using insertion sort.
+
+
+
+Example 1:
+
+Input Format:
+
+The first line of input should contain an integer n, representing the number of elements in the array.
+The second line of input should contain n space-separated integers, representing the elements of the array.
+Input:
+
+N: 10
+
+Array Element: 25 36 96 58 74 14 35 15 75 95
+
+
+
+Output Format:
+
+The program will sort the array using the even-odd insertion sort algorithm and print the sorted array.
+Output:
+
+96 14 75 15 74 36 35 58 25 95 
+
+
+
+Input format :
+The first line of input consists of the number of integers N.
+
+The second line of input consists of the array of elements separated by space.
+
+Output format :
+The output displays the sorted array using the even-odd insertion sort algorithm and prints the sorted array.
+
+Sample test cases :
+Input 1 :
+10
+25 36 96 58 74 14 35 15 75 95
+Output 1 :
+96 14 75 15 74 36 35 58 25 95 */
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+        int p;
+            cin >> p;
+                vector<int> a(p);
+                    for (int i = 0; i < p; i++) {
+                                cin >> a[i];
+                    }
+                        vector<int> odd, even;
+                            for (int i = 0; i < p; i++) {
+                                        if ((i + 1) % 2 == 0) {
+                                                        even.push_back(a[i]);
+                                        } else {
+                                                        odd.push_back(a[i]);
+                                        }
+                            }
+                                sort(odd.rbegin(), odd.rend());
+                                    sort(even.begin(), even.end());
+                                        for (int i = 0, j = 0, k = 0; i < p; i++) {
+                                                    if ((i + 1) % 2 == 0) {
+                                                                    a[i] = even[j++];
+                                                    } else {
+                                                                    a[i] = odd[k++];
+                                                    }
+                                        }
+                                            for (int i = 0; i < p; i++) {
+                                                        cout << a[i] << " ";
+                                            }
+                                                cout << endl;
+                                                    return 0;
+}
+
+
+
+
+/*3.You are developing a contact management system for customer relationship management (CRM) software. As part of the system, you need to implement a feature that sorts the contact names in alphabetical order.
+
+
+
+Write a program that prompts the user to enter the number of contacts and their respective names. The program should then use the insertion sort algorithm to sort the contact names in alphabetical order. After sorting, the program should display the contact names, now arranged in alphabetical order, after each iteration.
+
+
+
+This feature will assist users in easily locating specific contacts by their names, enabling efficient communication and management within the CRM system. It ensures an organized and user-friendly interface, improving productivity and customer relationship management for businesses.
+
+
+
+Note: This is a sample question asked in CTS recruitment.
+
+Input format :
+The first line of input consists of the number of contacts n.
+
+The second line of input consists of n names, separated by space.
+
+Output format :
+The first line of output prints the names in the given order, separated by space.
+
+The following lines print the result after each iteration.
+
+The last line of output prints the names in sorted order, separated by space.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Sample test cases :
+Input 1 :
+3
+Elena Damon Stefan
+Output 1 :
+Initial order: Elena Damon Stefan 
+After Iteration 1: Damon Elena Stefan 
+After Iteration 2: Damon Elena Stefan 
+Sorted order: Damon Elena Stefan */
+
+
+// You are using GCC
+#include<stdio.h>
+#include<string.h>
+void insertionsort(char names[][50],int n)
+{
+    char key[50];
+    for(int i=1;i<n;i++){
+        strcpy(key,names[i]);
+        int j=i-1;
+        while(j>=0 && strcmp(names[j],key)>0){
+            strcpy(names[j+1],names[j]);
+            j--;
+        }
+        strcpy(names[j+1],key);
+        printf("After Iteratin %d:",(i));
+        for(int k=0;k<n;k++)
+        {
+            printf("%s ", names[k]);
+        }
+        printf("\n");
+    }
+}
+int main(){
+    int n;
+    scanf("%d", &n);
+    char names[n][50];
+    for(int i=0;i<n;i++){
+        scanf("%s", names[i]);
+    }
+    printf("Initial order: ");
+    for(int i=0;i<n;i++){
+        printf("%s ",names[i]);
+    }
+    printf("\n");
+    insertionsort(names,n);
+    printf("Sorted order: ");
+    for(int i=0;i<n;i++)
+    {
+        printf("%s",names[i]," ");
+    }
+    printf("\n");
+    return 0;
+}
+
+
+
+

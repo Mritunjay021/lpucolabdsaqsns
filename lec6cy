@@ -1,0 +1,258 @@
+/*1.You are developing a student grading system for a school. As part of the system, you need to implement a feature that sorts the student names in alphabetical order based on their names.
+
+
+
+Write a program that prompts the user to enter the number of students and their respective names. The program should then use the selection sort algorithm to sort the student names in alphabetical order.
+
+
+
+After each iteration of the selection sort, the program should display the updated student names to reflect the current state of the sorting process.
+
+
+
+This feature will allow teachers and administrators to easily organize and manage student records based on their names. It provides a systematic approach for searching and accessing student information, facilitating efficient record-keeping and administrative tasks within the student grading system.
+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+
+Input format :
+The first line of input consists of the number of names n.
+
+The second line of input consists of n names, separated by space.
+
+Output format :
+The first line of output prints the names in the given order, separated by space.
+
+The following lines print the result after each iteration.
+
+The last line of output prints the names in sorted order, separated by space.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Sample test cases :
+Input 1 :
+4
+Ram Aadhik Gayathri Aadhvik
+Output 1 :
+Initial order: Ram Aadhik Gayathri Aadhvik 
+After Iteration 1: Aadhik Ram Gayathri Aadhvik 
+After Iteration 2: Aadhik Aadhvik Gayathri Ram 
+After Iteration 3: Aadhik Aadhvik Gayathri Ram 
+Sorted order: Aadhik Aadhvik Gayathri Ram 
+Input 2 :
+6
+Hi Hello Welcome to DataStructures Course
+Output 2 :
+Initial order: Hi Hello Welcome to DataStructures Course 
+After Iteration 1: Course Hello Welcome to DataStructures Hi 
+After Iteration 2: Course DataStructures Welcome to Hello Hi 
+After Iteration 3: Course DataStructures Hello to Welcome Hi 
+After Iteration 4: Course DataStructures Hello Hi Welcome to 
+After Iteration 5: Course DataStructures Hello Hi Welcome to 
+Sorted order: Course DataStructures Hello Hi Welcome to */
+
+
+
+
+// You are using GCC
+#include<iostream>
+#include<string>
+using namespace std;
+void selectionsort(string arr[],int n){
+    for(int i=0;i<n-1;i++){
+        int minindex=i;
+        for(int j=i+1;j<n;++j){
+            if(arr[j]<arr[minindex]){
+                minindex=j;
+            }
+        }
+        if(minindex!=i){
+            swap(arr[i],arr[minindex]);
+        }
+        cout<<"After Iteration "<<i+1<<": ";
+        for(int k=0;k<n;++k){
+            cout<<arr[k]<<" ";
+        }
+        cout<<endl;
+    }
+}
+int main(){
+    int numstudents;
+    cin>>numstudents;
+    string*studentnames=new string[numstudents];
+    for(int i=0;i<numstudents;i++){
+        cin>>studentnames[i];
+    }
+    cout<<"Initial order: ";
+    for(int i=0;i<numstudents;++i)
+    {
+        cout<<studentnames[i]<<" ";
+    }
+    cout<<"\n";
+    selectionsort(studentnames,numstudents);
+    cout<<"sorted order: ";
+    for(int i=0;i<numstudents;i++){
+        cout<<studentnames[i]<<" ";
+    }
+    cout<<endl;
+    delete[]studentnames;
+    return 0;
+}
+
+
+
+/*2.It's the first day for the students at school and the students enter the class and get seated at random places without any height order. So the students who are short and sitting back are not able to see the board since they sit behind taller students. Understanding this difficulty, the teacher decides to make the students sit in height order. 
+
+
+
+Suppose there are n students in the class. She makes all the students stand in a line and compares the first student's height with the remaining (n-1) students. If the first student's height is greater than the ith student, then the taller person goes to the ith place and the i'th student comes to the first place. 
+
+
+
+Again the new first student's height is compared with the remaining students and if his height is greater than ith student the first student goes to ith place and ith place student comes to first place and this goes on till the end. This process continues for all the students. 
+
+
+
+Finally, the students are in height order.
+
+
+
+Write a program to perform selection sort on an array of n elements.
+
+
+
+Example
+
+
+
+Input:
+
+6
+
+480
+
+160
+
+250
+
+130
+
+80
+
+50
+
+
+
+Output:
+
+Student's height order before sorting:
+
+480 160 250 130 80 50 
+
+Height order of students after iteration 1 
+
+50 480 250 160 130 80 
+
+Height order of students after iteration 2 
+
+50 80 480 250 160 130 
+
+Height order of students after iteration 3 
+
+50 80 130 480 250 160 
+
+Height order of students after iteration 4 
+
+50 80 130 160 480 250 
+
+Height order of students after iteration 5 
+
+50 80 130 160 250 480 
+
+After the final comparison of all students, the height order becomes:
+
+50 80 130 160 250 480 
+
+
+
+Explanation:
+
+In the first iteration 480 compared with 160, 160< 480 so swap the value. 160 480 250 130 80 50.Then 160 compared with 250 (250 >160) so no changes. Then 160 compared with 130 (130 <160 ) so swap the value. 130 480 250 160 80 50. The same process is repeated until all the values are compared in the list. So the final value for iteration 1 is 50 480 250 160 130 80. Repeat the process for the remaining iteration until all values get sorted.
+
+Input format :
+The first line of the input consists of array size N.
+
+The next n lines of the input consist of array elements.
+
+Output format :
+The output displays the height order of students.
+
+Sample test cases :
+Input 1 :
+6
+480
+160
+250
+130
+80
+50
+Output 1 :
+Student's height order before sorting: 480 160 250 130 80 50 
+Height order of students after iteration 1: 50 160 250 130 80 480 
+Height order of students after iteration 2: 50 80 250 130 160 480 
+Height order of students after iteration 3: 50 80 130 250 160 480 
+Height order of students after iteration 4: 50 80 130 160 250 480 
+Height order of students after iteration 5: 50 80 130 160 250 480 
+After final comparison of all students, the height order becomes: 50 80 130 160 250 480*/
+
+
+// You are using GCC
+#include<iostream>
+using namespace std;
+void selectionsort(int arr[],int n){
+    for(int i=0;i<n-1;++i){
+        int minindex=i;
+        for(int j=i+1;j<n;++j)
+        {
+            if(arr[j]<arr[minindex])
+            {
+                minindex=j;
+            }
+        }
+        if(minindex!=i)
+        {
+            swap(arr[i],arr[minindex]);
+        }
+        cout<<"Height order of students after iteration "<<i+1<<": ";
+        for(int k=0;k<n;++k)
+        {
+            cout<<arr[k]<<" ";
+        }
+        cout<<endl;
+    }
+}
+int main(){
+    int numstudents;
+    cin>>numstudents;
+    int *studentheights=new int[numstudents];
+    for(int i=0;i<numstudents;++i){
+        cin>>studentheights[i];
+    }
+    cout<<"Student's height order before sorting: ";
+    for(int i=0;i<numstudents;++i)
+    {
+        cout<<studentheights[i]<<" ";
+    }
+    cout<<"\n";
+    selectionsort(studentheights,numstudents);
+    cout<<"After final comparison of all students, the height order becomes: ";
+    for(int i=0;i<numstudents;++i){
+        cout<<studentheights[i]<<" ";
+    }
+    cout<<endl;
+    delete[]studentheights;
+    return 0;
+}

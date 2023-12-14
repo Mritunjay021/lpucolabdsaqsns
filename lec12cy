@@ -1,0 +1,173 @@
+
+
+/*1.You are developing a financial management application that tracks transaction records. Your task is to implement a feature that allows users to delete a specific transaction record from the circular header linked list. The application should handle this operation efficiently while maintaining the circular structure of the linked list.
+
+
+
+Implement a program that provides the following functionality using a circular header linked list:
+
+Insert a transaction record into the circular header linked list, where each record contains a unique transaction ID (positive integer) and a transaction amount (positive or negative floating-point number).
+Delete a transaction record from the linked list based on a user-provided index. Display an appropriate message if the index is invalid.
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input consists of an integer N, representing the number of initial transaction records in the circular header linked list.
+
+The next N lines follow, each containing an integer representing the transaction ID and a floating-point number representing the transaction amount.
+
+The last line consists of an integer K, representing the index of the transaction record to delete.
+
+Output format :
+If the provided index K is valid, display a message indicating the successful deletion of the transaction record at that index. (index starts from 0)
+
+Display the updated transaction records, listing each record's index, transaction ID, and amount.
+
+If the index K is invalid (less than 0 or greater than or equal to the number of transaction records), display an error message.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The circular header linked list contains at most 100 transaction records.
+
+Each transaction record is represented by a node containing a transaction ID (integer) and a transaction amount (floating-point number).
+
+Transaction IDs are unique positive integers.
+
+Transaction amounts are positive or negative floating-point numbers, representing credits or debits, respectively.
+
+The transaction records are indexed in the order they were entered, starting from index 0.
+
+The linked list follows a circular structure, where the last node points back to the header node.
+
+Sample test cases :
+Input 1 :
+3
+101 150.59
+102 75.34
+103 200.25
+1
+Output 1 :
+Transaction record at index 1 has been successfully deleted.
+Updated transaction records:
+Index 0: Transaction ID: 101, Amount: 150.59
+Index 1: Transaction ID: 103, Amount: 200.25
+Input 2 :
+2
+201 50.75
+202 100.59
+0
+Output 2 :
+Transaction record at index 0 has been successfully deleted.
+Updated transaction records:
+Index 0: Transaction ID: 202, Amount: 100.59
+Input 3 :
+2
+401 10.36
+402 8.58
+4
+Output 3 :
+Invalid index.*/
+
+
+// You are using GCC
+#include <iostream>
+
+struct Node {
+        int transactionID;
+            float transactionAmount;
+                Node* next;
+};
+
+struct CircularLinkedList {
+        Node* header;
+        
+            CircularLinkedList() {
+                        header = new Node;
+                                header->next = header;
+            }
+            
+                void insertRecord(int transactionID, float transactionAmount) {
+                            Node* newNode = new Node;
+                                    newNode->transactionID = transactionID;
+                                            newNode->transactionAmount = transactionAmount;
+                                            
+                                                    // Find the position to insert the new node in sorted order
+                                                            Node* current = header->next;
+                                                                    Node* prev = header;
+                                                                            while (current != header && current->transactionID < transactionID) {
+                                                                                            prev = current;
+                                                                                                        current = current->next;
+                                                                            }
+                                                                            
+                                                                                    newNode->next = current;
+                                                                                            prev->next = newNode;
+                }
+                
+                    bool deleteRecord(int index) {
+                                Node* current = header;
+                                        int currentIndex = -1;
+                                        
+                                                while (current->next != header && currentIndex < index - 1) {
+                                                                current = current->next;
+                                                                            currentIndex++;
+                                                }
+                                                
+                                                        if (currentIndex != index - 1) {
+                                                                        std::cout << "Invalid index." << std::endl;
+                                                                                    return false;
+                                                        }
+                                                        
+                                                                Node* deletedNode = current->next;
+                                                                        current->next = deletedNode->next;
+                                                                                delete deletedNode;
+                                                                                        return true;
+                    }
+                    
+                        void displayRecords() {
+                                    Node* current = header->next;
+                                            int index = 0;
+                                                    while (current != header) {
+                                                                    std::cout << "Index " << index++ << ": Transaction ID: " << current->transactionID << ", Amount: " << current->transactionAmount << std::endl;
+                                                                                current = current->next;
+                                                    }
+                        }
+                        
+                            ~CircularLinkedList() {
+                                        Node* current = header->next;
+                                                while (current != header) {
+                                                                Node* temp = current;
+                                                                            current = current->next;
+                                                                                        delete temp;
+                                                }
+                                                        delete header;
+                            }
+};
+
+int main() {
+        CircularLinkedList transactionList;
+            int n;
+                int transactionID;
+                    float transactionAmount;
+                        int indexToDelete;
+                        
+                            std::cin >> n;
+                            
+                                for (int i = 0; i < n; i++) {
+                                            std::cin >> transactionID >> transactionAmount;
+                                                    transactionList.insertRecord(transactionID, transactionAmount);
+                                }
+                                
+                                    std::cin >> indexToDelete;
+                                    
+                                        if (transactionList.deleteRecord(indexToDelete)) {
+                                                    std::cout << "Transaction record at index " << indexToDelete << " has been successfully deleted." << std::endl;
+                                                            std::cout << "Updated transaction records:" << std::endl;
+                                                                    transactionList.displayRecords();
+                                        }
+                                        
+                                            return 0;
+}

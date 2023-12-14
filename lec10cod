@@ -1,0 +1,496 @@
+
+/*1.You are developing a program for an online shopping cart system. Each node in the singly linked list represents a product added to the cart. The program should allow for deleting a product from the cart at a specific position and displaying the updated cart.
+
+
+
+Write a program to implement the online shopping cart system according to the following specifications:
+
+
+
+The program should prompt the user to enter the number of products in the cart.
+For each product, the program should prompt the user to enter its product code (an integer value).
+The program should create a singly linked list with nodes representing the products in the cart, where each node contains the product code.
+The program should then prompt the user to enter the position of the product to be deleted from the cart.
+The program should delete the node at the specified position from the linked list.
+Finally, the program should traverse the updated linked list and print the product codes of the remaining products in the cart.
+
+
+Note: This is a sample question asked in a TCS interview.
+
+Input format :
+The first line of input consists of an integer n, the number of nodes in the linked list.
+
+The second line of input consists of n integers, representing the data value of each node in the linked list, separated by space.
+
+The third line of input consists of an integer x, representing the position of the node to be deleted. (1-based)
+
+Output format :
+The output consists of a single line containing the data values of the modified linked list after deleting the node at position x. The data values should be separated by a space.
+
+Code constraints :
+1 ≤ n ≤ 10^5 (number of elements in the linked list)
+
+-10^9 ≤ value of each node ≤ 10^9
+
+1 ≤ x ≤ n (position of the node to be deleted)
+
+Sample test cases :
+Input 1 :
+7
+7270 5318 2964 4237 7388 7010 2468
+4
+Output 1 :
+7270 5318 2964 7388 7010 2468 
+Input 2 :
+6
+10 20 30 40 50 60
+3
+Output 2 :
+10 20 40 50 60 */
+
+
+
+
+#include <iostream>
+
+struct Node {
+        int data;
+            Node* next;
+            
+                Node(int val) : data(val), next(nullptr) {}
+};
+
+void append(Node** head_ref, Node** tail_ref, int new_data) {
+        Node* new_node = new Node(new_data);
+            if (*head_ref == nullptr)
+                    *head_ref = new_node;
+                        else
+                                (*tail_ref)->next = new_node;
+                                
+                                    *tail_ref = new_node;
+}
+
+Node* deleteNode(Node* head, int x) {
+        Node* temp1 = head;
+            Node* temp2;
+                if (x == 1) {
+                            head = head->next;
+                                    delete temp1;
+                                            return head;
+                }
+                
+                    for (int i = 0; i < (x - 1); i++) {
+                                temp2 = temp1;
+                                        temp1 = temp1->next;
+                    }
+                    
+                        temp2->next = temp1->next;
+                            delete temp1;
+                            
+                                return head;
+}
+
+void printList(Node* head) {
+        while (head != nullptr) {
+                    std::cout << head->data << " ";
+                            head = head->next;
+        }
+            std::cout << std::endl;
+}
+
+int main() {
+        int n, l;
+            Node* head = nullptr;
+                Node* tail = nullptr;
+                
+                    std::cin >> n;
+                        for (int i = 0; i < n; i++) {
+                                    std::cin >> l;
+                                            append(&head, &tail, l);
+                        }
+                        
+                            int kk;
+                                std::cin >> kk;
+                                
+                                    head = deleteNode(head, kk);
+                                    
+                                        printList(head);
+                                        
+                                            return 0;
+}
+
+/*2.You are tasked with developing a program to manage a student records system using a singly linked list. Each node in the linked list represents a student and contains their unique ID. The program should allow for creating a list of student records, deleting the first student's record, and printing the remaining student IDs.
+
+
+
+Write a program to implement the student records system according to the following specifications:
+
+
+
+The program should prompt the user to enter the number of students n for which records need to be created.
+For each student, the program should prompt the user to enter their student ID (an integer value).
+The program should create a singly linked list with n nodes, where each node represents a student and contains their student ID.
+After creating the linked list, the program should delete the first node from the list.
+Finally, the program should traverse the modified linked list and print the student IDs of the remaining students.
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input consists of an integer n, representing the number of nodes in the linked list.
+
+The second line of input consists of n space-separated integers, representing the values of each node in the linked list.
+
+Output format :
+The output prints the space-separated values of the linked list after deleting the first node.
+
+Code constraints :
+n>0
+
+Each node value is an integer.
+
+Sample test cases :
+Input 1 :
+5
+2 3 6 9 8
+Output 1 :
+3 6 9 8 
+Input 2 :
+20
+92 8 14 44 17 55 47 93 22 5 11 34 45 87 80 16 63 15 31 10
+Output 2 :
+8 14 44 17 55 47 93 22 5 11 34 45 87 80 16 63 15 31 10 
+theme*/
+
+
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+        int val;
+            struct Node* next;
+};
+
+void append(Node** head, int val) {
+        Node* tmp = new Node;
+            tmp->val = val;
+                tmp->next = NULL;
+                    if (*head == NULL) {
+                                *head = tmp;
+                    } else {
+                                Node* curr = *head;
+                                        while (curr->next != NULL) {
+                                                        curr = curr->next;
+                                        }
+                                                curr->next = tmp;
+                    }
+}
+
+void print(Node* head) {
+        if (head == NULL)
+                return;
+                    Node* curr = head;
+                        cout << curr->val << " ";
+                            print(curr->next);
+}
+
+void popLeft(Node** head) {
+        if (*head == NULL) {
+                    return;
+        }
+            Node* tmp = *head;
+                *head = (*head)->next;
+                    delete tmp;
+}
+
+int main(void) {
+        int n, i, pos, new_val;
+            cin >> n;
+                Node* myList = NULL;
+                    for (i = 0; i < n; i++) {
+                                int val;
+                                        cin >> val;
+                                                append(&myList, val);
+                    }
+                        popLeft(&myList);
+                            print(myList);
+                                return 0;
+}
+
+/*3.Hema wants to create a program to delete nodes in a linked list that appear more than once. The program should take user input to construct a linked list, insert nodes at the end of the list, and then delete any duplicate nodes. Finally, it should display the updated linked list.
+
+
+
+Note: This is a sample question asked in a mPhasis interview.
+
+Input format :
+The first line of input consists of the number of nodes in the linked list, numNodes (an integer).
+
+The second line of input consists of the values for each node, inserted at the end of the list, separated by spaces, in the order they appear in the linked list.
+
+Output format :
+The output displays the original list and the linked list in the next line after removing the nodes that appear more than once.
+
+
+
+Refer to the sample output for format specifications.
+
+Code constraints :
+1 <= numNodes <= 100
+
+-10000 <= values of nodes <= 10000
+
+Sample test cases :
+Input 1 :
+5
+50 60 70 80 50
+Output 1 :
+Original List: 50 60 70 80 50 
+Updated List: 50 60 70 80 
+Input 2 :
+6
+-10000 -10000 -10000 10000 10000 10000
+Output 2 :
+Original List: -10000 -10000 -10000 10000 10000 10000 
+Updated List: -10000 10000 
+Input 3 :
+3
+4 5 6
+Output 3 :
+Original List: 4 5 6 
+Updated List: 4 5 6 */
+
+
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+};
+
+void createList(Node*& head, int numNodes) {
+        for (int i = 0; i < numNodes; i++) {
+                    int data;
+                            cin >> data;
+                                    Node* newNode = new Node();
+                                            newNode->data = data;
+                                                    newNode->next = NULL;
+                                                            if (head == NULL) {
+                                                                            head = newNode;
+                                                            } else {
+                                                                            Node* temp = head;
+                                                                                        while (temp->next != NULL) {
+                                                                                                            temp = temp->next;
+                                                                                        }
+                                                                                                    temp->next = newNode;
+                                                            }
+        }
+}
+
+void printList(Node* head) {
+        if (head == NULL) {
+                    return;
+        }
+            Node* temp = head;
+                while (temp != NULL) {
+                            cout << temp->data << " ";
+                                    temp = temp->next;
+                }
+                    cout << endl;
+}
+
+void deleteDuplicates(Node* head) {
+        unordered_set<int> seen;
+            Node* prev = NULL;
+                Node* curr = head;
+                    while (curr != NULL) {
+                                if (seen.find(curr->data) != seen.end()) {
+                                                if (prev != NULL) {
+                                                                    prev->next = curr->next;
+                                                } else {
+                                                                    head = curr->next;
+                                                }
+                                                            delete curr;
+                                } else {
+                                                seen.insert(curr->data);
+                                                            prev = curr;
+                                }
+                                        curr = curr->next;
+                    }
+}
+
+int main() {
+        int numNodes;
+            cin >> numNodes;
+                Node* head = NULL;
+                    createList(head, numNodes);
+                        cout<<"Original List: ";
+                            printList(head);
+                                deleteDuplicates(head);
+                                    cout<<"Updated List: ";
+                                        printList(head);
+                                            return 0;
+}
+
+
+
+
+/*4.Nandha wants to write a program that deletes a range of nodes between two given positions in a singly linked list. Write a program that takes input for the size of the linked list, the elements of the linked list, the start position, and the end position. The program should delete the nodes between the specified positions and display the updated linked list.
+
+
+
+Note: This is a sample question asked in a TCS interview.
+
+Input format :
+The first line contains an integer 'size' representing the size of the linked list.
+
+The second line contains 'arr' space-separated integers representing the elements of the linked list.
+
+The third line contains an integer 'start' representing the start position.
+
+The fourth line contains an integer 'end' representing the end position.
+
+Output format :
+The first line of output displays the linked list before deletion.
+
+The second line of output displays the linked list after deletion.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= size <= 100
+
+-50000 <= arr <= 50000
+
+1 <= start <= 100
+
+1 <= end <= 100
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+1
+3
+Output 1 :
+Linked List before deletion: 1 2 3 4 5 
+Linked List after deletion: 4 5 
+Input 2 :
+5
+-50000 50000 4000 3676 7263
+1
+5
+Output 2 :
+Linked List before deletion: -50000 50000 4000 3676 7263 
+Linked List after deletion: all the elements are deleted
+theme*/
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+struct Node {
+        int data;
+            Node* next;
+};
+
+void insertNode(Node** head, int data) {
+        Node* newNode = new Node();
+            newNode->data = data;
+                newNode->next = nullptr;
+                
+                    if (*head == nullptr) {
+                                *head = newNode;
+                    } else {
+                                Node* temp = *head;
+                                        while (temp->next != nullptr) {
+                                                        temp = temp->next;
+                                        }
+                                                temp->next = newNode;
+                    }
+}
+
+void deleteNodesInRange(Node** head, int start, int end) {
+        if (*head == nullptr) {
+                    return;
+        }
+        
+            Node* temp = *head;
+                Node* prev = nullptr;
+                
+                    for (int i = 1; i < start && temp != nullptr; i++) {
+                                prev = temp;
+                                        temp = temp->next;
+                    }
+                    
+                        for (int i = start; i <= end && temp != nullptr; i++) {
+                                    Node* nextNode = temp->next;
+                                            delete temp;
+                                                    temp = nextNode;
+                        }
+                        
+                            if (prev != nullptr) {
+                                        prev->next = temp;
+                            } else {
+                                        *head = temp;
+                            }
+}
+
+void displayLinkedList(Node* head) {
+        Node* temp = head;
+            while (temp != nullptr) {
+                        cout << temp->data << " ";
+                                temp = temp->next;
+            }
+                cout << endl;
+}
+
+void deleteLinkedList(Node* head) {
+        Node* temp;
+            while (head != nullptr) {
+                        temp = head;
+                                head = head->next;
+                                        delete temp;
+            }
+}
+
+int main() {
+        Node* head = nullptr;
+            int size;
+            
+                cin >> size;
+                
+                    for (int i = 0; i < size; i++) {
+                                int value;
+                                        cin >> value;
+                                                insertNode(&head, value);
+                    }
+                    
+                        int start, end;
+                            cin >> start;
+                                cin >> end;
+                                
+                                    cout << "Linked List before deletion: ";
+                                        displayLinkedList(head);
+                                        
+                                            deleteNodesInRange(&head, start, end);
+                                            
+                                                if (head == nullptr) {
+                                                            cout << "Linked List after deletion: all the elements are deleted" << endl;
+                                                } else {
+                                                            cout << "Linked List after deletion: ";
+                                                                    displayLinkedList(head);
+                                                }
+                                                
+                                                    deleteLinkedList(head);
+                                                    
+                                                        return 0;
+}
+

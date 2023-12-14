@@ -1,0 +1,480 @@
+/*1.You are developing a smart device that reads binary data from sensors installed in various locations. Each sensor generates a stream of binary data, and the binary values are stored in a linked list. Your task is to implement a function that calculates the decimal value of the binary data represented by the linked list.
+
+
+
+The linked list represents the binary representation of a number, with the most significant bit at the head of the linked list. Your function should traverse the linked list and calculate the decimal value of the binary number. 
+
+
+
+Note: This is a sample question asked in the Google interview.
+
+Input format :
+The input consists of a singly-linked list representing the binary data.
+
+Each node in the linked list contains a value of either 0 or 1.
+
+Output format :
+The output is the decimal value calculated from the binary data represented by the linked list.
+
+Code constraints :
+The number of nodes will not exceed 30.
+
+Each node's value is either 0 or 1.
+
+The binary data is guaranteed to be a valid representation of a non-negative integer.
+
+The most significant bit is located at the head of the linked list.
+
+Sample test cases :
+Input 1 :
+3
+1 0 1
+Output 1 :
+Linked List: 1 0 1 
+Decimal Value: 5
+Input 2 :
+0
+Output 2 :
+Linked List: Empty linked list
+Decimal Value: 0*/
+
+
+
+
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    
+    Node(int val){
+        this->val = val;
+        next = NULL;
+    }
+};
+
+void ins(Node* &head,int val){
+    Node* n = new Node(val);
+    
+    if(head==NULL){
+        head=n;
+        return;
+    }
+    
+    Node* temp = head;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next = n;
+}
+
+void dec(Node* head, int &count){
+    int su = 0;
+    Node* temp = head;
+    while(count-1>=0){
+        su += temp->val*pow(2,count-1);
+        temp = temp->next;
+        count--;
+    }
+    cout << "Decimal Value: " << su;
+}
+
+void disp(Node* head){
+    Node* temp = head;
+    cout << "Linked List: ";
+    if(temp == NULL){
+        cout << "Empty linked list" << endl;
+        return;
+    }
+    while(temp!=NULL){
+        cout << temp->val << " ";
+        temp=temp->next;
+    }
+    cout << endl;
+}
+
+int main(){
+    Node* head = NULL;
+    int a,b,count;
+    cin >> a;
+    count = a;
+    while(a>0){
+        cin >> b;
+        ins(head,b);
+        a--;
+    }
+    disp(head);
+    dec(head,count);
+}
+
+
+
+
+
+/*2.You are tasked with creating a program that processes a linked list containing integer data and rearranges its nodes. Specifically, your program should separate the even and odd integers, placing the even integers before the odd ones while maintaining their original order within each group.
+
+
+
+Note: The new nodes are inserted at the beginning of the linked list.
+
+
+
+Example
+
+
+
+Input:
+
+linked list = 1 2 3 4
+
+
+
+Output:
+
+4 2 3 1
+
+
+
+Explanation:
+
+Initially, the linked list contains four nodes with the values: 1 2 3 4.
+
+The new nodes are inserted at the beginning of the list. So, after insertion, the nodes will be in the order: 4 3 2 1.
+
+Now, rearrange the linked list to position even numbers before odd numbers while preserving their order.
+
+The resulting rearranged linked list is 4 2 3 1.
+
+Input format :
+The first line of input consists of an integer N, representing the number of elements in the linked list.
+
+The second line consists of N space-separated integers, representing the elements in the linked list.
+
+Output format :
+The output displays the rearranged list, containing the even numbers followed by the odd numbers.
+
+Sample test cases :
+Input 1 :
+4
+1 2 3 4
+Output 1 :
+4 2 3 1 
+Input 2 :
+5
+12 15 13 14 16
+Output 2 :
+16 14 12 13 15 */
+
+
+
+#include <sstream>
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+void ib(struct node** head_ref, int ele) {
+    struct node* newnode = new struct node;
+    newnode->data = ele;
+    newnode->next = *head_ref;
+    *head_ref = newnode;
+}
+
+string op(struct node* head) {
+    string e, o, s;
+    ostringstream s1, s2;
+    struct node* temp = head;
+    while (temp != NULL) {
+        if ((temp->data) % 2 == 0) {
+            e = e + to_string(temp->data) + " ";
+        } else {
+            o = o + to_string(temp->data) + " ";
+        }
+        temp = temp->next;
+    }
+    return (e + o);
+}
+
+int main() {
+    struct node* head = NULL;
+    int n, ele;
+    cin >> n;
+    for (int i = 1; i <= n; i++) {
+        cin >> ele;
+        ib(&head, ele);
+    }
+    string str = op(head);
+    cout << str;
+    return 0;
+}
+
+
+
+
+/*3.Imagine you are working on a text editor application that allows users to create documents. As part of a new feature, you want to implement a function that checks whether a word entered by the user is a palindrome or not.
+
+
+
+To achieve this, you decide to utilize a singly linked list to store the characters of the word. Each character will be represented as a node in the linked list.
+
+
+
+Your task is to write a program that takes input from the user, constructs the linked list, and determines whether the word is a palindrome.
+
+
+
+Note: This question is asked by Amazon, Microsoft, and Snapdeal.
+
+Input format :
+The input consists of a series of space-separated characters (alphabets, digits, special symbols).
+
+Enter $ to stop.
+
+Output format :
+The output prints whether the given characters form a palindrome or not.
+
+Sample test cases :
+Input 1 :
+1 2 3 4 5 4 3 2 1 $
+Output 1 :
+The linked list is a palindrome
+Input 2 :
+a b c d e f $
+Output 2 :
+The linked list is not a palindrome
+Input 3 :
+! @ # % ^ % # @ ! $
+Output 3 :
+The linked list is a palindrome
+*/
+
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    char val;
+    Node* next;
+    
+    Node(char val){
+        this->val=val;
+        next = NULL;
+    }
+};
+
+void ins(Node* &head,char val){
+    Node* n = new Node(val);
+    
+    if(head==NULL){
+        head=n;
+        return;
+    }
+    
+    Node* temp=head;
+    
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next = n;
+}
+
+void pal(Node* head,int count){
+    int start = 0;
+    int end = count-1;
+    bool stat = true;
+    while(end>=start){
+        Node* temp1 = head;
+        Node* temp2 = head;
+        for(int i=0;i<start;i++){
+            temp1 = temp1->next;
+        }
+        for(int i=0;i<end;i++){
+            temp2 = temp2->next;
+        }
+        if(temp1->val!=temp2->val){
+            stat = false;
+            break;
+        }
+        end--;
+        start++;
+    }
+    if(stat){
+        cout << "The linked list is a palindrome";
+    }
+    else{
+        cout << "The linked list is not a palindrome";
+    }
+}
+
+int main(){
+    Node *head = NULL;
+    char a;
+    int count=0;
+    while(1){
+        cin >> a;
+        if(a!='$'){
+            ins(head,a);
+            count++;
+        }
+        else{
+            break;
+        }
+    }
+    pal(head,count);
+}
+
+
+/*4.#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    char val;
+    Node* next;
+    
+    Node(char val){
+        this->val=val;
+        next = NULL;
+    }
+};
+
+void ins(Node* &head,char val){
+    Node* n = new Node(val);
+    
+    if(head==NULL){
+        head=n;
+        return;
+    }
+    
+    Node* temp=head;
+    
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next = n;
+}
+
+void pal(Node* head,int count){
+    int start = 0;
+    int end = count-1;
+    bool stat = true;
+    while(end>=start){
+        Node* temp1 = head;
+        Node* temp2 = head;
+        for(int i=0;i<start;i++){
+            temp1 = temp1->next;
+        }
+        for(int i=0;i<end;i++){
+            temp2 = temp2->next;
+        }
+        if(temp1->val!=temp2->val){
+            stat = false;
+            break;
+        }
+        end--;
+        start++;
+    }
+    if(stat){
+        cout << "The linked list is a palindrome";
+    }
+    else{
+        cout << "The linked list is not a palindrome";
+    }
+}
+
+int main(){
+    Node *head = NULL;
+    char a;
+    int count=0;
+    while(1){
+        cin >> a;
+        if(a!='$'){
+            ins(head,a);
+            count++;
+        }
+        else{
+            break;
+        }
+    }
+    pal(head,count);
+}
+*/
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+Node* addOneToBarcode(Node* head) {
+    Node* current = head;
+    Node* lastNonNine = nullptr;
+    
+    while (current) {
+        if (current->data != 9) {
+            lastNonNine = current;
+        }
+        current = current->next;
+    }
+    
+    if (lastNonNine) {
+        lastNonNine->data += 1;
+        current = lastNonNine->next;
+    } else {
+        Node* newHead = new Node(1);
+        newHead->next = head;
+        head = newHead;
+        current = head->next;
+    }
+    
+    while (current) {
+        current->data = 0;
+        current = current->next;
+    }
+    
+    return head;
+}
+
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    
+    for (int i = 0; i < n; i++) {
+        int digit;
+        cin >> digit;
+        Node* newNode = new Node(digit);
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    
+    head = addOneToBarcode(head);
+    
+    printList(head);
+}

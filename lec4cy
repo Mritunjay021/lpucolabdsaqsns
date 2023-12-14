@@ -1,0 +1,139 @@
+/*1.Pooja is an aspiring chef who loves experimenting with different recipes. She is currently working on a program that merges two arrays representing ingredients and prints the minimum ingredient required in the resulting array.
+
+
+
+Pooja often combines different ingredients from multiple recipes to create unique dishes. To keep track of the ingredients, she has created two arrays, arr1, and arr2, where each element represents a specific ingredient, and the value indicates the quantity required.
+
+
+
+To streamline her cooking process, Pooja wants to create a program that merges the two ingredient arrays and identifies the minimum ingredient required in the resulting array. By knowing the minimum ingredient, Pooja can ensure that she has enough of that ingredient on hand for her culinary experiments.
+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+
+Input format :
+The first line of input consists of the number of elements n in the first array.
+
+The second line of input consists of n elements, separated by space.
+
+The third line of input consists of the number of elements m in the second array.
+
+The fourth line of input consists of m elements, separated by space.
+
+Output format :
+The output prints the minimum element in the merged array.
+
+Sample test cases :
+Input 1 :
+6
+1 2 3 4 5 2
+7
+4 5 6 7 8 6 6
+Output 1 :
+1*/
+
+
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int n,m;
+    cin>>n;
+    vector<int> arr1(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr1[i];
+    }
+    cin>>m;
+    vector<int> arr2(m);
+    for(int i=0;i<m;i++)
+    {
+        cin>>arr2[i];
+    }
+    vector<int> merged;
+    merged.insert(merged.end(),arr1.begin(),arr1.end());
+    merged.insert(merged.end(),arr2.begin(),arr2.end());
+    
+    int mig=*min_element(merged.begin(),merged.end());
+    cout<<mig<<endl;
+    
+    return 0;
+}
+
+
+/*2.You have an array of strings and another array of integers. Merge the two arrays such that the resulting array alternates between a string and an integer.
+
+Input format :
+The first line of input contains an integer, which represents the size of the string and integer array.
+
+The next line of input contains strings from the string array, each separated by a space.
+
+The last line of input contains elements of the integer array, each separated by a space.
+
+Output format :
+The output displays the merged array, where each element is separated by a space.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 ≤ stringSize, integerSize ≤ 100 (Maximum size of the arrays).
+
+The elements of the string array can contain alphanumeric characters and special symbols.
+
+The elements of the integer array should be valid integers within the range of the int data type.
+
+stringSize == integerSize
+
+Sample test cases :
+Input 1 :
+3
+Apple Banana Orange
+1 2 3
+Output 1 :
+Merged Array: Apple 1 Banana 2 Orange 3 */
+
+
+
+
+// You are using GCC
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    int sz;
+    scanf("%d",&sz);
+    char str[sz][50];
+    for(int i=0;i<sz;i++)
+    {
+        scanf("%s",str[i]);
+    }
+    int in[sz];
+    for(int i=0;i<sz;i++)
+    {
+        scanf("%d",&in[i]);
+    }
+    char merged[2*sz][50+20];
+    int mi=0;
+    for(int i=0;i<sz;i++)
+    {
+        sprintf(merged[mi++],"%s", str[i]);
+        sprintf(merged[mi++],"%d",in[i]);
+    }
+    printf("Merged Array: ");
+    for(int i=0;i<2*sz;i++)
+    {
+        printf("%s ",merged[i]);
+    }
+    return 0;
+}
+
+
+
+
+
